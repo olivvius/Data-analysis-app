@@ -1,4 +1,4 @@
-from collections import namedtuple
+umericfrom collections import namedtuple
 import altair as alt
 import math
 import pandas as pd
@@ -28,7 +28,9 @@ def generate_report(df):
     for i in range(df_describe_table.shape[0]):
         for j in range(df_describe_table.shape[1]):
             table.cell(i+1, j).text = str(df_describe_table.values[i, j])
-            
+
+
+    
     #nul and non nulls values
     doc.add_heading("Number of Null and Non-Null Values", level=2)
     null_counts = df.isnull().sum()
@@ -39,10 +41,13 @@ def generate_report(df):
         counts_table.cell(0, i).text = col
         for j, value in enumerate(count):
             counts_table.cell(j+1, i).text = str(value)
-
+            
+    # Filtrer les colonnes numériques pour la heatmap
+    numeric_columns = df.select_dtypes(include=[float, int]).columns
+    
     # Ajouter un histogramme pour chaque colonne au rapport
     doc.add_heading("Histogrammes", level=2)
-    for col in df.columns:
+    for col in df.numeric_columns:
         plt.hist(df[col], bins=20)
         plt.title(col)
         img_buffer = BytesIO()
@@ -52,9 +57,10 @@ def generate_report(df):
         img_buffer.close()
 
     # Ajouter la heatmap avec seaborn au rapport
+    heatmap_df = df[numeric_columns]
     doc.add_heading("Heatmap", level=2)
     plt.figure(figsize=(8, 6))
-    sns.heatmap(df.corr(), annot=True, cmap='coolwarm')
+    sns.heatmap(heatmap_df.corr(), annot=True, cmap='coolwarm')
     img_buffer = BytesIO()
     plt.savefig(img_buffer, format="png")
     plt.close()
@@ -106,7 +112,7 @@ def main():
         
         # Affichage d'un histogramme pour chaque colonne
         st.write("Histograms :")
-        for col in df.columns:
+        for col in df.numeric_columns:
             try:
                 plt.hist(df[col], bins=20)
                 plt.title(col)
