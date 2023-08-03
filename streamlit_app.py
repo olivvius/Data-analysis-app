@@ -58,8 +58,8 @@ def main():
 
         
          # Afficher la heatmap interactive avec Plotly
-            st.write("Heatmap :")
-             if not numeric_columns.empty:
+        st.write("Heatmap :")
+            if not numeric_columns.empty:
                 heatmap_df = df[numeric_columns]
                 fig_heatmap = go.Figure(data=go.Heatmap(z=heatmap_df.corr(), x=heatmap_df.columns, y=heatmap_df.columns, colorscale="Viridis"))
                 st.plotly_chart(fig_heatmap)
