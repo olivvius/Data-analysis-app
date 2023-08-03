@@ -5,6 +5,7 @@ import pandas as pd
 import seaborn as sns
 import streamlit as st
 import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 
 def main():
     st.set_option('deprecation.showPyplotGlobalUse', False)
