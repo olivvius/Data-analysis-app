@@ -42,7 +42,9 @@ def main():
         # Afficher le tableau des nombres de valeurs nulles et non nulles
         st.write("Number of null and non-null values by columns")
         st.table(counts_df)
-
+        
+        # Filtrer les colonnes numériques pour la heatmap
+        numeric_columns = df.select_dtypes(include=[float, int]).columns
         
         # Affichage d'un histogramme pour chaque colonne
         st.write("Histograms :")
@@ -54,7 +56,7 @@ def main():
                 plt.clf()  # Nettoyer la figure après chaque itération
             except:
                 print("error")
-               # st.write("Cannot draw histogram for column {}".format(col)
+               # st.write("Cannot draw histogram for column {}".format(col))
 
         
          # Afficher la heatmap interactive avec Plotly
