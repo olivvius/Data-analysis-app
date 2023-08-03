@@ -2,37 +2,53 @@ from collections import namedtuple
 import altair as alt
 import math
 import pandas as pd
+import seaborn as sns
 import streamlit as st
+import matplotlib.pyplot as plt
 
-"""
-# Welcome to Streamlit!
+def main():
+    st.title("Application Streamlit pour l'analyse de données CSV")
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
+    # Ajout d'un sélecteur de fichiers CSV
+    uploaded_file = st.file_uploader("Choisissez un fichier CSV", type=["csv"])
 
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+    if uploaded_file is not None:
+        # Chargement du fichier CSV dans un DataFrame pandas
+        df = pd.read_csv(uploaded_file)
+        
+        # Affichage du nombre d'enregistrements
+        num_records = len(df)
+        st.write("Nombre d'enregistrements :", num_records)
+        st.write()
+        
+        # Affichage du tableau issu de df.describe()
+        st.write("Tableau panda issu de df.describe() :")
+        st.write(df.describe())
+        st.write()
+        
+        # Affichage du nombre de valeurs nulles et non nulles de chaque colonne
+        null_counts = df.isnull().sum()
+        non_null_counts = df.notnull().sum()
+        st.write("Nombre de valeurs nulles par colonne :")
+        st.write(null_counts)
+        st.write()
+        st.write("Nombre de valeurs non nulles par colonne :")
+        st.write(non_null_counts)
+        st.write()
+        
+        # Affichage d'un histogramme pour chaque colonne
+        st.write("Histogrammes :")
+        for col in df.columns:
+            plt.hist(df[col], bins=20)
+            plt.title(col)
+            st.pyplot()
+            plt.clf()  # Nettoyer la figure après chaque itération
+        
+        # Affichage de la heatmap avec seaborn
+        st.write("Heatmap :")
+        plt.figure(figsize=(10, 8))
+        sns.heatmap(df.corr(), annot=True, cmap='coolwarm')
+        st.pyplot()
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
-
-
-with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
-
-    Point = namedtuple('Point', 'x y')
-    data = []
-
-    points_per_turn = total_points / num_turns
-
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
-
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
+if __name__ == "__main__":
+    main()
