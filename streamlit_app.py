@@ -7,6 +7,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 def main():
+    st.set_option('deprecation.showPyplotGlobalUse', False)
     st.title("Exploratory Data analysis of data from CSV files")
 
     # Ajout d'un sélecteur de fichiers CSV
