@@ -97,12 +97,12 @@ def main():
         st.write()
         
         # Affichage du tableau issu de df.describe()
-        st.write("General infos:")
+        st.write("General infos")
         st.write(df.describe())
         st.write()
 
          # Affichage des 10 premiers lignes
-        st.write("First lines:")
+        st.write("First lines")
         st.write(df.head())
         st.write()   
         
@@ -127,7 +127,7 @@ def main():
 
         
          # Afficher la heatmap interactive avec Plotly
-        st.write("Heatmap :")
+        st.write("Heatmap")
         if not numeric_columns.empty:
             fig_heatmap = go.Figure(data=go.Heatmap(z=numeric_df.corr(), x=numeric_df.columns, y=numeric_df.columns, colorscale="RdBu"))
             st.plotly_chart(fig_heatmap)
