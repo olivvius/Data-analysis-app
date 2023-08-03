@@ -75,7 +75,7 @@ def generate_report(df):
     report_buffer.seek(0)
 
     # Générer le lien de téléchargement pour le rapport
-    href = f"<a href='data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,{base64.b64encode(report_buffer.read()).decode()}' download='data_analysis_report.docx'>Télécharger le rapport</a>"
+    href = f"<a href='data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,{base64.b64encode(report_buffer.read()).decode()}' download='data_analysis_report.docx'>Download report</a>"
 
     # Afficher le lien de téléchargement dans l'application Streamlit
     st.markdown(href, unsafe_allow_html=True)
@@ -141,17 +141,10 @@ def main():
         else:
             st.write("Aucune colonne numérique disponible pour la heatmap.")
       # Générer et proposer le rapport d'analyse en Word à l'utilisateur
-        if st.button("Générer le rapport d'analyse en Word"):
+        if st.button("Generate analysis report in Word format"):
             generate_report(df)
-            st.success("Le rapport d'analyse a été généré. Cliquez sur le lien ci-dessous pour le télécharger.")
-            #st.markdown(get_file_download_link("rapport_analyse.docx"), unsafe_allow_html=True)
+            st.success("analysis report has been generated, click on link to download.")
             
-def get_file_download_link(file_path):
-    """Génère un lien de téléchargement pour le fichier spécifié."""
-    with open(file_path, "rb") as file:
-        content = file.read()
-    href = f"<a href='data:application/octet-stream;base64,{base64.b64encode(content).decode()}' download='{file_path}'>Télécharger le rapport</a>"
-    return href
 
 
 if __name__ == "__main__":
