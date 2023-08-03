@@ -64,7 +64,7 @@ def main():
         st.write("Heatmap :")
         if not numeric_columns.empty:
             heatmap_df = df[numeric_columns]
-            fig_heatmap = go.Figure(data=go.Heatmap(z=heatmap_df.corr(), x=heatmap_df.columns, y=heatmap_df.columns, colorscale="Viridis"))
+            fig_heatmap = go.Figure(data=go.Heatmap(z=heatmap_df.corr(), x=heatmap_df.columns, y=heatmap_df.columns, colorscale="RdBu"))
             st.plotly_chart(fig_heatmap)
         else:
             st.write("Aucune colonne numérique disponible pour la heatmap.")
