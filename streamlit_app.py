@@ -6,6 +6,7 @@ import seaborn as sns
 import streamlit as st
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
+import plotly.express as px
 from io import BytesIO
 from streamlit.components.v1 import html
 from docx import Document
@@ -120,16 +121,10 @@ def main():
         numeric_columns = df.select_dtypes(include=[float, int]).columns
         numeric_df = df[numeric_columns]
         # Affichage d'un histogramme pour chaque colonne
-        st.write("Histograms :")
-        for col in numeric_df.columns:
-            try:
-                plt.hist(df[col], bins=20)
-                plt.title(col)
-                st.pyplot()
-                plt.clf()  # Nettoyer la figure après chaque itération
-            except:
-                print("error")
-               # st.write("Cannot draw histogram for column {}".format(col))
+         for col in df.numeric_df:
+                    fig = px.histogram(df, x=col, nbins=20, title=col)
+                    st.plotly_chart(fig)
+                       # st.write("Cannot draw histogram for column {}".format(col))
 
         
          # Afficher la heatmap interactive avec Plotly
