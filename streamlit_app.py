@@ -10,6 +10,7 @@ from io import BytesIO
 from streamlit.components.v1 import html
 from docx import Document
 from docx.shared import Inches
+import base64
 
 def generate_report(df):
     # Créer un document Word
