@@ -26,6 +26,11 @@ def main():
         st.write("General infos:")
         st.write(df.describe())
         st.write()
+
+         # Affichage des 10 premiers lignes
+        st.write("First lines:")
+        st.write(df.head())
+        st.write()   
         
         # Obtenir le nombre de valeurs nulles et non nulles par colonne
         null_counts = df.isnull().sum()
