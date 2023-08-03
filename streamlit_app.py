@@ -53,7 +53,7 @@ def main():
                 st.pyplot()
                 plt.clf()  # Nettoyer la figure après chaque itération
             except:
-                st.write("Cannot draw histogram for column {}".format(col)
+               # st.write("Cannot draw histogram for column {}".format(col)
 
         
         # Affichage de la heatmap avec seaborn
