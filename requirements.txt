@@ -4,5 +4,3 @@ streamlit
 matplotlib
 seaborn
 plotly
-io
-docx
