@@ -5,3 +5,4 @@ matplotlib
 seaborn
 plotly
 python-docx
+base64
