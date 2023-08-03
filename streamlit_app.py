@@ -14,22 +14,20 @@ from docx.shared import Inches
 def generate_report(df):
     # Créer un document Word
     doc = Document()
-    doc.add_heading("Rapport d'analyse", level=1)
+    doc.add_heading("Analysis report", level=1)
 
     # Ajouter le nombre d'enregistrements au rapport
     num_records = len(df)
-    doc.add_paragraph(f"Nombre d'enregistrements : {num_records}")
+    doc.add_paragraph(f"Number of records : {num_records}")
 
     # Ajouter le tableau issu de df.describe() au rapport
-    doc.add_heading("Tableau panda issu de df.describe()", level=2)
+    doc.add_heading("General infos:", level=2)
     df_describe_table = df.describe().reset_index()
     df_describe_table.columns = [""] + list(df_describe_table.columns[1:])
     table = doc.add_table(df_describe_table.shape[0]+1, df_describe_table.shape[1])
     for i in range(df_describe_table.shape[0]):
         for j in range(df_describe_table.shape[1]):
             table.cell(i+1, j).text = str(df_describe_table.values[i, j])
-
-
     
     #nul and non nulls values
     doc.add_heading("Number of Null and Non-Null Values", level=2)
@@ -44,10 +42,11 @@ def generate_report(df):
             
     # Filtrer les colonnes numériques pour la heatmap
     numeric_columns = df.select_dtypes(include=[float, int]).columns
+    numeric_df = df[numeric_columns]
     
     # Ajouter un histogramme pour chaque colonne au rapport
-    doc.add_heading("Histogrammes", level=2)
-    for col in df.numeric_columns:
+    doc.add_heading("Histograms", level=2)
+    for col in numeric_df.columns:
         plt.hist(df[col], bins=20)
         plt.title(col)
         img_buffer = BytesIO()
@@ -60,7 +59,7 @@ def generate_report(df):
     heatmap_df = df[numeric_columns]
     doc.add_heading("Heatmap", level=2)
     plt.figure(figsize=(8, 6))
-    sns.heatmap(heatmap_df.corr(), annot=True, cmap='coolwarm')
+    sns.heatmap(numeric_df.corr(), annot=True, cmap='coolwarm')
     img_buffer = BytesIO()
     plt.savefig(img_buffer, format="png")
     plt.close()
