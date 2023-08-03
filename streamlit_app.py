@@ -57,11 +57,14 @@ def main():
                # st.write("Cannot draw histogram for column {}".format(col)
 
         
-        # Affichage de la heatmap avec seaborn
-        st.write("Heatmap :")
-        plt.figure(figsize=(10, 8))
-        sns.heatmap(df.corr(), annot=True, cmap='coolwarm')
-        st.pyplot()
+         # Afficher la heatmap interactive avec Plotly
+            st.write("Heatmap :")
+             if not numeric_columns.empty:
+                heatmap_df = df[numeric_columns]
+                fig_heatmap = go.Figure(data=go.Heatmap(z=heatmap_df.corr(), x=heatmap_df.columns, y=heatmap_df.columns, colorscale="Viridis"))
+                st.plotly_chart(fig_heatmap)
+             else:
+                st.write("Aucune colonne numérique disponible pour la heatmap.")
 
 if __name__ == "__main__":
     main()
