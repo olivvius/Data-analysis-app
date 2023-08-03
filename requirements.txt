@@ -5,4 +5,3 @@ matplotlib
 seaborn
 plotly
 python-docx
-streamlit.components.v1
