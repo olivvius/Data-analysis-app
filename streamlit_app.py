@@ -142,9 +142,10 @@ def main():
             <div style="text-align: center; margin-top: 50px;">
                 <p>Developped by Ollie </p>
                 <p>Date: August 2023</p>
+                <p><a href="https://github.com/olivvius/streamlit-example/tree/master">Github link of the app</a></p>
                 <p>
                     <a style="color: #fff;" href="https://github.com/olivvius/streamlit-example/tree/master" target="_blank">
-                        <img src="URL_Du_Logo_GitHub" alt="GitHub" height="30" width="30">
+                        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" height="30" width="30">
                     </a>
                     <a style="color: #fff;" href="https://pandas.pydata.org/" target="_blank">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Pandas_logo.svg/2048px-Pandas_logo.svg.png" alt="Pandas" height="30" width="30">
