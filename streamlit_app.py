@@ -121,7 +121,7 @@ def main():
         numeric_columns = df.select_dtypes(include=[float, int]).columns
         numeric_df = df[numeric_columns]
         # Affichage d'un histogramme pour chaque colonne
-        for col in dnumeric_df.columns:
+        for col in numeric_df.columns:
             fig = px.histogram(df, x=col, nbins=20, title=col)
             st.plotly_chart(fig)
 
