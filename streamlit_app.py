@@ -6,7 +6,64 @@ import seaborn as sns
 import streamlit as st
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
+from io import BytesIO
+from streamlit.components.v1 import html
+from docx import Document
+from docx.shared import Inches
 
+def generate_report(df):
+    # Créer un document Word
+    doc = Document()
+    doc.add_heading("Rapport d'analyse", level=1)
+
+    # Ajouter le nombre d'enregistrements au rapport
+    num_records = len(df)
+    doc.add_paragraph(f"Nombre d'enregistrements : {num_records}")
+
+    # Ajouter le tableau issu de df.describe() au rapport
+    doc.add_heading("Tableau panda issu de df.describe()", level=2)
+    df_describe_table = df.describe().reset_index()
+    df_describe_table.columns = [""] + list(df_describe_table.columns[1:])
+    table = doc.add_table(df_describe_table.shape[0]+1, df_describe_table.shape[1])
+    for i in range(df_describe_table.shape[0]):
+        for j in range(df_describe_table.shape[1]):
+            table.cell(i+1, j).text = str(df_describe_table.values[i, j])
+
+    # Ajouter le nombre de valeurs nulles et non nulles de chaque colonne au rapport
+    doc.add_heading("Nombre de valeurs nulles par colonne", level=2)
+    null_counts = df.isnull().sum()
+    for col, count in null_counts.iteritems():
+        doc.add_paragraph(f"{col} : {count} valeurs nulles")
+
+    doc.add_heading("Nombre de valeurs non nulles par colonne", level=2)
+    non_null_counts = df.notnull().sum()
+    for col, count in non_null_counts.iteritems():
+        doc.add_paragraph(f"{col} : {count} valeurs non nulles")
+
+    # Ajouter un histogramme pour chaque colonne au rapport
+    doc.add_heading("Histogrammes", level=2)
+    for col in df.columns:
+        plt.hist(df[col], bins=20)
+        plt.title(col)
+        img_buffer = BytesIO()
+        plt.savefig(img_buffer, format="png")
+        plt.close()
+        doc.add_picture(img_buffer, width=Inches(6))
+        img_buffer.close()
+
+    # Ajouter la heatmap avec seaborn au rapport
+    doc.add_heading("Heatmap", level=2)
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(df.corr(), annot=True, cmap='coolwarm')
+    img_buffer = BytesIO()
+    plt.savefig(img_buffer, format="png")
+    plt.close()
+    doc.add_picture(img_buffer, width=Inches(6))
+    img_buffer.close()
+
+    # Sauvegarder le rapport en Word
+    doc.save("rapport_analyse.docx")
+    
 def main():
     st.set_option('deprecation.showPyplotGlobalUse', False)
     st.title("Exploratory Data analysis of data from a CSV file")
@@ -68,6 +125,19 @@ def main():
             st.plotly_chart(fig_heatmap)
         else:
             st.write("Aucune colonne numérique disponible pour la heatmap.")
+      # Générer et proposer le rapport d'analyse en Word à l'utilisateur
+        if st.button("Générer le rapport d'analyse en Word"):
+            generate_report(df)
+            st.success("Le rapport d'analyse a été généré. Cliquez sur le lien ci-dessous pour le télécharger.")
+            st.markdown(get_file_download_link("rapport_analyse.docx"), unsafe_allow_html=True)
+            
+def get_file_download_link(file_path):
+    """Génère un lien de téléchargement pour le fichier spécifié."""
+    with open(file_path, "rb") as file:
+        content = file.read()
+    href = f"<a href='data:application/octet-stream;base64,{base64.b64encode(content).decode()}' download='{file_path}'>Télécharger le rapport</a>"
+    return href
+
 
 if __name__ == "__main__":
     main()
