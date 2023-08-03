@@ -137,12 +137,34 @@ def main():
         if st.button("Generate analysis report in Word format"):
             generate_report(df)
             st.success("analysis report has been generated, click on link to download.")
+    # Ajouter le footer
+        footer_html = """
+            <div style="text-align: center; margin-top: 50px;">
+                <p>Developped by Ollie </p>
+                <p>Date: August 2023</p>
+                <p>
+                    <a style="color: #fff;" href="https://github.com/olivvius/streamlit-example/tree/master" target="_blank">
+                        <img src="URL_Du_Logo_GitHub" alt="GitHub" height="30" width="30">
+                    </a>
+                    <a style="color: #fff;" href="https://pandas.pydata.org/" target="_blank">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Pandas_logo.svg/2048px-Pandas_logo.svg.png" alt="Pandas" height="30" width="30">
+                    </a>
+                    <a style="color: #fff;" href="https://matplotlib.org/" target="_blank">
+                        <img src="https://matplotlib.org/stable/_static/logo2_compressed.svg" alt="Matplotlib" height="30" width="30">
+                    </a>
+                    <a style="color: #fff;" href="https://seaborn.pydata.org/" target="_blank">
+                        <img src="https://seaborn.pydata.org/_static/logo-wide-lightbg.svg" alt="Seaborn" height="30" width="120">
+                    </a>
+                </p>
+            </div>
+        """
+        st.markdown(footer_html, unsafe_allow_html=True)
             
 def config():
     st.set_option('deprecation.showPyplotGlobalUse', False)
 
      # Changer le thème Streamlit
-    st.set_page_config(layout="wide", page_title="Streamlit App", page_icon=":bar_chart:")
+    st.set_page_config(layout="wide", page_title="Data Analysis", page_icon=":bar_chart:")
 
     # Définir le fond gris foncé
     st.markdown(
@@ -170,30 +192,9 @@ def config():
     )
 
     # Titre de l'application
-    st.title("Exploratory Data analysis of data from a CSV file")
+    st.title("Exploratory Data analysis from a CSV file")
 
-    # Ajouter le footer
-    footer_html = """
-        <div style="text-align: center; margin-top: 50px;">
-            <p>Developped by Ollie </p>
-            <p>Date: August 2023</p>
-            <p>
-                <a style="color: #fff;" href="Lien_Vers_Votre_GitHub" target="_blank">
-                    <img src="URL_Du_Logo_GitHub" alt="GitHub" height="30" width="30">
-                </a>
-                <a style="color: #fff;" href="https://pandas.pydata.org/" target="_blank">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Pandas_logo.svg/2048px-Pandas_logo.svg.png" alt="Pandas" height="30" width="30">
-                </a>
-                <a style="color: #fff;" href="https://matplotlib.org/" target="_blank">
-                    <img src="https://matplotlib.org/stable/_static/logo2_compressed.svg" alt="Matplotlib" height="30" width="30">
-                </a>
-                <a style="color: #fff;" href="https://seaborn.pydata.org/" target="_blank">
-                    <img src="https://seaborn.pydata.org/_static/logo-wide-lightbg.svg" alt="Seaborn" height="30" width="120">
-                </a>
-            </p>
-        </div>
-    """
-    st.markdown(footer_html, unsafe_allow_html=True)
+    
 
 if __name__ == "__main__":
     main()
