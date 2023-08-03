@@ -53,6 +53,7 @@ def main():
                 st.pyplot()
                 plt.clf()  # Nettoyer la figure après chaque itération
             except:
+                print("error")
                # st.write("Cannot draw histogram for column {}".format(col)
 
         
