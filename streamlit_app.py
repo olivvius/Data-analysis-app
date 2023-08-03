@@ -68,7 +68,17 @@ def generate_report(df):
     img_buffer.close()
 
     # Sauvegarder le rapport en Word
-    doc.save("rapport_analyse.docx")
+    #doc.save("rapport_analyse.docx")
+    # Enregistrer le rapport dans un flux binaire
+    report_buffer = BytesIO()
+    doc.save(report_buffer)
+    report_buffer.seek(0)
+
+    # Générer le lien de téléchargement pour le rapport
+    href = f"<a href='data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,{base64.b64encode(report_buffer.read()).decode()}' download='data_analysis_report.docx'>Télécharger le rapport</a>"
+
+    # Afficher le lien de téléchargement dans l'application Streamlit
+    st.markdown(href, unsafe_allow_html=True)
     
 def main():
     st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -134,7 +144,7 @@ def main():
         if st.button("Générer le rapport d'analyse en Word"):
             generate_report(df)
             st.success("Le rapport d'analyse a été généré. Cliquez sur le lien ci-dessous pour le télécharger.")
-            st.markdown(get_file_download_link("rapport_analyse.docx"), unsafe_allow_html=True)
+            #st.markdown(get_file_download_link("rapport_analyse.docx"), unsafe_allow_html=True)
             
 def get_file_download_link(file_path):
     """Génère un lien de téléchargement pour le fichier spécifié."""
