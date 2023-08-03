@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 def main():
     st.set_option('deprecation.showPyplotGlobalUse', False)
-    st.title("Exploratory Data analysis of data from CSV files")
+    st.title("Exploratory Data analysis of data from a CSV file")
 
     # Ajout d'un sélecteur de fichiers CSV
     uploaded_file = st.file_uploader("Please choose a CSV file", type=["csv"])
@@ -45,12 +45,16 @@ def main():
 
         
         # Affichage d'un histogramme pour chaque colonne
-        st.write("Histogrammes :")
+        st.write("Histograms :")
         for col in df.columns:
-            plt.hist(df[col], bins=20)
-            plt.title(col)
-            st.pyplot()
-            plt.clf()  # Nettoyer la figure après chaque itération
+            try:
+                plt.hist(df[col], bins=20)
+                plt.title(col)
+                st.pyplot()
+                plt.clf()  # Nettoyer la figure après chaque itération
+            except:
+                st.write("Cannot draw histogram for column {}".format(col)
+
         
         # Affichage de la heatmap avec seaborn
         st.write("Heatmap :")
