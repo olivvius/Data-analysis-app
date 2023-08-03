@@ -11,6 +11,7 @@ from streamlit.components.v1 import html
 from docx import Document
 from docx.shared import Inches
 import base64
+from streamlit.components.v1 import html
 
 def generate_report(df):
     # Créer un document Word
@@ -81,9 +82,7 @@ def generate_report(df):
     st.markdown(href, unsafe_allow_html=True)
     
 def main():
-    st.set_option('deprecation.showPyplotGlobalUse', False)
-    st.title("Exploratory Data analysis of data from a CSV file")
-
+    config()
     # Ajout d'un sélecteur de fichiers CSV
     uploaded_file = st.file_uploader("Please choose a CSV file", type=["csv"])
 
@@ -145,7 +144,62 @@ def main():
             generate_report(df)
             st.success("analysis report has been generated, click on link to download.")
             
+def config():
+    st.set_option('deprecation.showPyplotGlobalUse', False)
 
+     # Changer le thème Streamlit
+    st.set_page_config(layout="wide", page_title="Streamlit App", page_icon=":bar_chart:")
+
+    # Définir le fond gris foncé
+    st.markdown(
+        """
+        <style>
+            body {
+                background-color: #333;
+                color: #fff;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Ajouter une police de caractère sympathique
+    st.markdown(
+        """
+        <style>
+            body {
+                font-family: 'Helvetica Neue', sans-serif;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Titre de l'application
+    st.title("Exploratory Data analysis of data from a CSV file")
+
+    # Ajouter le footer
+    footer_html = """
+        <div style="text-align: center; margin-top: 50px;">
+            <p>Developped by Ollie </p>
+            <p>Date: August 2023</p>
+            <p>
+                <a style="color: #fff;" href="Lien_Vers_Votre_GitHub" target="_blank">
+                    <img src="URL_Du_Logo_GitHub" alt="GitHub" height="30" width="30">
+                </a>
+                <a style="color: #fff;" href="https://pandas.pydata.org/" target="_blank">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Pandas_logo.svg/2048px-Pandas_logo.svg.png" alt="Pandas" height="30" width="30">
+                </a>
+                <a style="color: #fff;" href="https://matplotlib.org/" target="_blank">
+                    <img src="https://matplotlib.org/stable/_static/logo2_compressed.svg" alt="Matplotlib" height="30" width="30">
+                </a>
+                <a style="color: #fff;" href="https://seaborn.pydata.org/" target="_blank">
+                    <img src="https://seaborn.pydata.org/_static/logo-wide-lightbg.svg" alt="Seaborn" height="30" width="120">
+                </a>
+            </p>
+        </div>
+    """
+    st.markdown(footer_html, unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
