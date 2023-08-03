@@ -28,17 +28,17 @@ def generate_report(df):
     for i in range(df_describe_table.shape[0]):
         for j in range(df_describe_table.shape[1]):
             table.cell(i+1, j).text = str(df_describe_table.values[i, j])
-
-    # Ajouter le nombre de valeurs nulles et non nulles de chaque colonne au rapport
-    doc.add_heading("Nombre de valeurs nulles par colonne", level=2)
+            
+    #nul and non nulls values
+    doc.add_heading("Number of Null and Non-Null Values", level=2)
     null_counts = df.isnull().sum()
-    for col, count in null_counts.iteritems():
-        doc.add_paragraph(f"{col} : {count} valeurs nulles")
-
-    doc.add_heading("Nombre de valeurs non nulles par colonne", level=2)
     non_null_counts = df.notnull().sum()
-    for col, count in non_null_counts.iteritems():
-        doc.add_paragraph(f"{col} : {count} valeurs non nulles")
+    counts_df = pd.DataFrame({"Number of Null Values": null_counts, "Number of Non-Null Values": non_null_counts})
+    counts_table = doc.add_table(counts_df.shape[0]+1, counts_df.shape[1])
+    for i, (col, count) in enumerate(counts_df.items()):
+        counts_table.cell(0, i).text = col
+        for j, value in enumerate(count):
+            counts_table.cell(j+1, i).text = str(value)
 
     # Ajouter un histogramme pour chaque colonne au rapport
     doc.add_heading("Histogrammes", level=2)
