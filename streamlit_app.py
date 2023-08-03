@@ -7,10 +7,10 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 def main():
-    st.title("Application Streamlit pour l'analyse de données CSV")
+    st.title("Exploratory Data analysis of data from CSV files")
 
     # Ajout d'un sélecteur de fichiers CSV
-    uploaded_file = st.file_uploader("Choisissez un fichier CSV", type=["csv"])
+    uploaded_file = st.file_uploader("Please choose a CSV file", type=["csv"])
 
     if uploaded_file is not None:
         # Chargement du fichier CSV dans un DataFrame pandas
@@ -18,23 +18,25 @@ def main():
         
         # Affichage du nombre d'enregistrements
         num_records = len(df)
-        st.write("Nombre d'enregistrements :", num_records)
+        st.write("Records number :", num_records)
         st.write()
         
         # Affichage du tableau issu de df.describe()
-        st.write("Tableau panda issu de df.describe() :")
+        st.write("General infos:")
         st.write(df.describe())
         st.write()
         
-        # Affichage du nombre de valeurs nulles et non nulles de chaque colonne
+        # Obtenir le nombre de valeurs nulles et non nulles par colonne
         null_counts = df.isnull().sum()
         non_null_counts = df.notnull().sum()
-        st.write("Nombre de valeurs nulles par colonne :")
-        st.write(null_counts)
-        st.write()
-        st.write("Nombre de valeurs non nulles par colonne :")
-        st.write(non_null_counts)
-        st.write()
+
+        # Créer un DataFrame à partir des séries null_counts et non_null_counts
+        counts_df = pd.DataFrame({"Number of Null Values": null_counts, "Number of Non-Null Values": non_null_counts})
+
+        # Afficher le tableau des nombres de valeurs nulles et non nulles
+        st.write("Number of null and non-null values by columns")
+        st.table(counts_df)
+
         
         # Affichage d'un histogramme pour chaque colonne
         st.write("Histogrammes :")
