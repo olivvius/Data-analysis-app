@@ -109,10 +109,10 @@ def main():
         
         # Filtrer les colonnes numériques pour la heatmap
         numeric_columns = df.select_dtypes(include=[float, int]).columns
-        
+        numeric_df = df[numeric_columns]
         # Affichage d'un histogramme pour chaque colonne
         st.write("Histograms :")
-        for col in df.numeric_columns:
+        for col in numeric_df.columns:
             try:
                 plt.hist(df[col], bins=20)
                 plt.title(col)
@@ -126,8 +126,7 @@ def main():
          # Afficher la heatmap interactive avec Plotly
         st.write("Heatmap :")
         if not numeric_columns.empty:
-            heatmap_df = df[numeric_columns]
-            fig_heatmap = go.Figure(data=go.Heatmap(z=heatmap_df.corr(), x=heatmap_df.columns, y=heatmap_df.columns, colorscale="RdBu"))
+            fig_heatmap = go.Figure(data=go.Heatmap(z=numeric_df.corr(), x=numeric_df.columns, y=numeric_df.columns, colorscale="RdBu"))
             st.plotly_chart(fig_heatmap)
         else:
             st.write("Aucune colonne numérique disponible pour la heatmap.")
