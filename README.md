@@ -48,6 +48,7 @@ Generate a Word report with a single click
     Matplotlib
     Altair
     python-docx
+    scikit-learn
 
 📦 Dependencies
 
