@@ -1,7 +1,7 @@
-altair
-pandas
-streamlit
-matplotlib
-seaborn
-plotly
-python-docx
+altair==5.5.0
+docx==0.2.4
+matplotlib==3.10.1
+pandas==2.2.3
+plotly==6.0.1
+seaborn==0.13.2
+streamlit==1.44.0
